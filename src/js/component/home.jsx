@@ -1,24 +1,53 @@
-import React from "react";
+import React, { useState , useEffect } from "react";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
-
-//create your first component
 const Home = () => {
+	const [ todo, setTodo ] = useState('');
+	const [ todosList, setTodosList] = useState([]);
+	const handleInput = (e) => {
+		setTodo(e.target.value);
+	}
+
+
 	return (
-		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+		<div className="container ">
+			<h1 className="text-center rounded my-2 p-3 mb-2 bg-info text-white">
+				To Do List
+			</h1>
+			<div className="d-flex align-items-center">
+				<input type="text" onChange={handleInput} value={todo} />
+				<button 
+					type="button" 
+					className="btn btn-primary ms-2" 
+					onClick={handleClick}
+				>
+					Add
+				</button>
+			</div>
+			
+			<div className="container">
+				<ul className="list-group">
+				{ todosList.map (( data , index) => (
+					<li className="list-group-item" key={index}>
+						<span> {data} </span>
+					<button 
+						type="button" 
+						className="btn btn-danger"
+						onClick={ () => setTodosList(
+							todosList.filter(
+								(currentIndex) =>  {index !== currentIndex})
+							)
+						}
+					>
+						Delete
+					</button>
+				</li>
+				))}
+				</ul>
+				<div>
+					<p> {todosList.length} pending {todosList.length === 1 ? "task" : "tasks"}</p>
+					<p> {todosList.length === 0 ? "Add task" : null}</p>
+				</div>
+			</div>
 		</div>
 	);
 };
